@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "citizens"
+    }
+  },
+  "defaultProject": "citizens",
+  "cli": {
+    "analytics": "089ba2cc-b22d-4a15-8ac5-b439497a647e"
+  }
 }
