@@ -7,8 +7,7 @@ export const citizensRoutes: Routes = [
     path: CITIZENS_ROUTE,
     component: ListComponent,
     data: {
-      title: 'Citizens',
-      roles: []
+      title: 'Citizens'
     }
   }
 ];

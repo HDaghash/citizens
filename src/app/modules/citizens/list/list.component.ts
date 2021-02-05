@@ -24,15 +24,26 @@ export class ListComponent implements OnInit {
         "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
     }
   ];
+  pageSize: number = 5;
+  loaderItems = Array.from(Array(this.pageSize).keys());
+  isLoading: boolean = true;
+  total = 20;
   constructor(private avatarsService: AvatarsService) {}
 
   ngOnInit(): void {
-    this.avatarsService.getAvatars().subscribe(response => {
-      if (response) {
-        this.avatars = response.map(item => {
-          return item.avatars[1].url;
-        });
+    this.isLoading = true;
+    this.avatarsService.getAvatars().subscribe(
+      response => {
+        if (response) {
+          this.avatars = response.map(item => {
+            return item.avatars[1].url;
+          });
+          this.isLoading = false;
+        }
+      },
+      error => {
+        this.isLoading = false;
       }
-    });
+    );
   }
 }

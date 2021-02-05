@@ -1,7 +1,27 @@
-<div class="container">
-  <div class="item"
-    *ngFor="let avatar of avatars | slice :0:5">
+<nz-row nzType="flex"
+  nzJustify="space-around"
+  nzAlign="middle"
+  *ngIf="isLoading">
+  <nz-col class="item"
+    *ngFor="let loader of loaderItems">
+    <nz-skeleton [nzActive]="true"
+      [nzParagraph]="{ rows: 13 }">
+    </nz-skeleton>
+  </nz-col>
+</nz-row>
+<nz-row nzType="flex"
+  nzJustify="space-around"
+  nzAlign="middle">
+  <nz-col class="item"
+    *ngFor="let avatar of avatars| slice:0:5">
     <app-card [avatar]="avatar"
       [person]="persons[1]"></app-card>
-  </div>
-</div>
+  </nz-col>
+</nz-row>
+<nz-row nzType="flex"
+  nzJustify="start"
+  nzAlign="middle"
+  class="pagination">
+  <nz-pagination [nzPageSize]="pageSize"
+    [nzTotal]="total"></nz-pagination>
+</nz-row>
