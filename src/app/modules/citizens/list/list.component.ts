@@ -10,7 +10,6 @@ import { CITIZENS_ICON } from './config';
 export class ListComponent implements OnInit {
   readonly title = 'Citizens';
   readonly citizenIcon = CITIZENS_ICON;
-  avatars: string[] = [];
   persons: IPerson[] = [
     {
       name: 'Hasan Daghash',
@@ -27,8 +26,11 @@ export class ListComponent implements OnInit {
         "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
     }
   ];
+  addingMode: boolean;
+  avatars: string[] = [];
+
   pageSize: number = 4;
-  loaderItems = Array.from(Array(this.pageSize).keys());
+  loaderItems = Array.from(Array(this.pageSize + 1).keys());
   isLoading: boolean = true;
   total = 20;
   constructor(private avatarsService: AvatarsService) {}
@@ -48,5 +50,9 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       }
     );
+  }
+
+  addCitizen() {
+    this.addingMode = true;
   }
 }

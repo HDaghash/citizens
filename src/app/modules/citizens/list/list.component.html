@@ -22,21 +22,27 @@
   nzAlign="middle">
   <nz-col class="item"
     *ngIf="!isLoading">
-    <div class="add-mode">
+    <div class="add-mode"
+      *ngIf="!addingMode">
       <nz-row nzType="flex"
         nzJustify="center"
         nzAlign="middle"
-        style="height:100%">
+        style="height:100%"
+        (click)="addCitizen()">
         <nz-col>
           <button nz-button
             nzType="primary"
             nzSize="large"
             nzShape="round"
+            (click)="addCitizen()"
             [disabled]="isLoading"><i nz-icon
               nzType="user-add"
               nzTheme="outline"></i> Add Citizen</button>
         </nz-col>
       </nz-row>
+    </div>
+    <div *ngIf="addingMode">
+      <app-form></app-form>
     </div>
   </nz-col>
   <nz-col class="item"
