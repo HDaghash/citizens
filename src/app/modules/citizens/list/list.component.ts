@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
 import { IPerson } from './types';
+import { CITIZENS_ICON } from './config';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
+  readonly title = 'Citizens';
+  readonly citizenIcon = CITIZENS_ICON;
   avatars: string[] = [];
   persons: IPerson[] = [
     {
@@ -24,7 +27,7 @@ export class ListComponent implements OnInit {
         "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
     }
   ];
-  pageSize: number = 5;
+  pageSize: number = 4;
   loaderItems = Array.from(Array(this.pageSize).keys());
   isLoading: boolean = true;
   total = 20;

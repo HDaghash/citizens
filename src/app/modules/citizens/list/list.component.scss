@@ -1,3 +1,7 @@
+.page-header {
+  margin: 20px;
+}
+
 .item {
   margin-top: 30px;
   min-width: 300px;
@@ -6,4 +10,17 @@
 
 .pagination {
   margin: 40px 30px;
+}
+
+
+.add-mode {
+  border-radius: 30px;
+  border: dotted 2px #9A8DFC;
+  height: 500px;
+  transition: all 0.5s;
+
+  &:hover {
+    background: rgb(210, 206, 242);
+    cursor: pointer;
+  }
 }
