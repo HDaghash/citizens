@@ -4,8 +4,16 @@
 
 }
 
+html {
+  height: 100%;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
+  background: linear-gradient(3deg, #f6f5fa, #fff);
+  height: 100%;
+  background-attachment: fixed;
+
 }
 
 
@@ -22,9 +30,4 @@ body {
 
 .icon.inline {
   margin-right: 10px;
-}
-
-body {
-  background: linear-gradient(3deg, #f6f5fa, #fff);
-  height: 100vh;
 }
