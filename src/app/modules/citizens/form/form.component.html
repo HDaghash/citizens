@@ -58,7 +58,7 @@
       nzSize="large"
       nzShape="round"
       type="submit"><i nz-icon
-        nzType="save"
-        nzTheme="outline"></i> Save</button>
+        [nzType]="type ==='add' ? 'plus' : 'save'"
+        nzTheme="outline"></i> {{action}}</button>
   </nz-form-item>
 </form>

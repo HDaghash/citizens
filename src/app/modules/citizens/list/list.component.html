@@ -42,7 +42,8 @@
       </nz-row>
     </div>
     <div *ngIf="addingMode">
-      <app-form></app-form>
+      <app-form type="add"
+        (onBack)="hideForm()"></app-form>
     </div>
   </nz-col>
   <nz-col class="item"

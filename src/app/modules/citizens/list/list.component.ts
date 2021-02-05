@@ -55,4 +55,8 @@ export class ListComponent implements OnInit {
   addCitizen() {
     this.addingMode = true;
   }
+
+  hideForm() {
+    this.addingMode = false;
+  }
 }

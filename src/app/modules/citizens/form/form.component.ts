@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-form',
@@ -6,6 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./form.component.scss']
 })
 export class FormComponent implements OnInit {
+  @Input('type') type: 'add' | 'edit';
   @Output('onBack') onBack = new EventEmitter();
   @Output('onSubmit') onSubmit = new EventEmitter();
 
@@ -15,9 +16,12 @@ export class FormComponent implements OnInit {
     city: [null, [Validators.required]],
     note: [null, [Validators.required]]
   });
+  action: string;
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.action = this.type === 'add' ? 'Add Citizen' : 'Save Change';
+  }
 
   submit() {
     if (this.form.valid) {
