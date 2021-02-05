@@ -1,1 +1,7 @@
-<p>list works!</p>
+<div class="container">
+  <div class="item"
+    *ngFor="let avatar of avatars | slice :0:5">
+    <app-card [avatar]="avatar"
+      [person]="persons[1]"></app-card>
+  </div>
+</div>

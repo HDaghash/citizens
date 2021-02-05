@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 75px auto;
+
+  .item {
+    margin-top: 25px;
+  }
+}
