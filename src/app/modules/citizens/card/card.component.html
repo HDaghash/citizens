@@ -19,6 +19,7 @@
 <div class="card"
   *ngIf="editMode">
   <app-form type="edit"
+    [person]="person"
     (onBack)="hideForm()"
     (onSubmit)="submit($event)"></app-form>
 </div>

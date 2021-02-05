@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { IPerson } from '../list/types';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -7,6 +8,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class FormComponent implements OnInit {
   @Input('type') type: 'add' | 'edit';
+  @Input('person') person: IPerson;
   @Output('onBack') onBack = new EventEmitter();
   @Output('onSubmit') onSubmit = new EventEmitter();
 
@@ -34,6 +36,9 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.action = this.type === 'add' ? 'Add Citizen' : 'Save Change';
+    if (this.person) {
+      this.form.setValue(this.person);
+    }
   }
 
   submit() {
