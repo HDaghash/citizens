@@ -11,10 +11,23 @@ export class FormComponent implements OnInit {
   @Output('onSubmit') onSubmit = new EventEmitter();
 
   form = this.fb.group({
-    name: [null, [Validators.required]],
-    age: [null, [Validators.required]],
-    city: [null, [Validators.required]],
-    note: [null, [Validators.required]]
+    name: [null, [Validators.required, Validators.minLength(3)]],
+    age: [
+      null,
+      [
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/),
+        Validators.maxLength(3)
+      ]
+    ],
+    city: [
+      null,
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+    ],
+    note: [
+      null,
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
+    ]
   });
   action: string;
   constructor(private fb: FormBuilder) {}
@@ -25,7 +38,8 @@ export class FormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.onSubmit.emit();
+      const data = this.form.value;
+      this.onSubmit.emit(data);
     }
   }
 

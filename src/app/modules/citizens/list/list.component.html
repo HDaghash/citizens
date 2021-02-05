@@ -43,7 +43,8 @@
     </div>
     <div *ngIf="addingMode">
       <app-form type="add"
-        (onBack)="hideForm()"></app-form>
+        (onBack)="hideForm()"
+        (onSubmit)="submit($event)"></app-form>
     </div>
   </nz-col>
   <nz-col class="item"

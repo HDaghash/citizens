@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './core.routing';
 import { AppComponent } from './core.component';
 import { MainComponent } from './layouts/main/main.component';
@@ -15,7 +15,13 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
 
 @NgModule({
   declarations: [AppComponent, MainComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, SharedModule],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    SharedModule
+  ],
   providers: [HttpService, { provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
 })

@@ -10,7 +10,18 @@ export class CardComponent implements OnInit {
   @Input('person') person;
   readonly notesMaxDisplay = 60;
   readonly icons = ICONS;
+  editMode: boolean;
   constructor() {}
 
   ngOnInit(): void {}
+
+  edit() {
+    this.editMode = true;
+  }
+
+  submit($event) {}
+
+  hideForm() {
+    this.editMode = false;
+  }
 }

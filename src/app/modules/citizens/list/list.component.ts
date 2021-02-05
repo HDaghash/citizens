@@ -59,4 +59,8 @@ export class ListComponent implements OnInit {
   hideForm() {
     this.addingMode = false;
   }
+
+  submit($event) {
+    console.log($event);
+  }
 }

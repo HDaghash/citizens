@@ -1,8 +1,10 @@
-<div class="card">
+<div class="card"
+  *ngIf="!editMode">
   <div class="card-avatar">
     <img [src]="avatar">
   </div>
   <div class="card-edit-btn"
+    (click)="edit()"
     [innerHtml]="icons.EDIT_ICON | avoidSanitize">
   </div>
   <div class="card-content">
@@ -13,4 +15,10 @@
         [innerHtml]="icons.NOTE_ICON | avoidSanitize"></span>{{person.note | slice:0:notesMaxDisplay}} </p>
     <div class="card-content-city"><span [innerHtml]="icons.CITY_ICON | avoidSanitize"></span>{{person.city}}</div>
   </div>
+</div>
+<div class="card"
+  *ngIf="editMode">
+  <app-form type="edit"
+    (onBack)="hideForm()"
+    (onSubmit)="submit($event)"></app-form>
 </div>
