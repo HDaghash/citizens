@@ -1,1 +1,63 @@
-<p>list works!</p>
+<nz-row class="page-header"
+  nzType="flex"
+  nzJustify="start"
+  nzAlign="middle">
+  <nz-col>
+    <h1><span [innerHtml]="citizenIcon|avoidSanitize"></span>{{title}}</h1>
+  </nz-col>
+</nz-row>
+<nz-row nzType="flex"
+  nzJustify="space-around"
+  nzAlign="middle"
+  *ngIf="isLoading">
+  <nz-col class="item"
+    *ngFor="let loader of loaderItems">
+    <nz-skeleton [nzActive]="true"
+      [nzParagraph]="{ rows: 13 }">
+    </nz-skeleton>
+  </nz-col>
+</nz-row>
+<nz-row nzType="flex"
+  nzJustify="space-around"
+  nzAlign="middle">
+  <nz-col class="item"
+    *ngIf="!isLoading">
+    <div class="add-mode"
+      *ngIf="!addingMode">
+      <nz-row nzType="flex"
+        nzJustify="center"
+        nzAlign="middle"
+        style="height:100%"
+        (click)="addCitizen()">
+        <nz-col>
+          <button nz-button
+            nzType="primary"
+            nzSize="large"
+            nzShape="round"
+            (click)="addCitizen()"
+            [disabled]="isLoading"><i nz-icon
+              nzType="user-add"
+              nzTheme="outline"></i> Add Citizen</button>
+        </nz-col>
+      </nz-row>
+    </div>
+    <div *ngIf="addingMode">
+      <app-form type="add"
+        (onBack)="hideForm()"
+        (onSubmit)="submit($event)"></app-form>
+    </div>
+  </nz-col>
+  <nz-col class="item"
+    *ngFor="let avatar of avatars| slice:0:pageSize">
+    <app-card [avatar]="avatar"
+      [person]="persons[1]"></app-card>
+  </nz-col>
+</nz-row>
+<nz-row nzType="flex"
+  nzJustify="start"
+  nzAlign="middle"
+  class="pagination">
+  <nz-pagination [nzPageSize]="pageSize"
+    nzSize="large"
+    [nzTotal]="total"></nz-pagination>
+</nz-row>

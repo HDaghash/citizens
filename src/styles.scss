@@ -1,1 +1,33 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: 'Roboto';
+  src: url('/assets/fonts/Roboto/Roboto-Regular.woff');
+
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(3deg, #f6f5fa, #fff);
+  height: 100%;
+  background-attachment: fixed;
+
+}
+
+
+.icon-tabler-pencil {
+  position: relative;
+  display: block;
+  margin: auto;
+  top: 7px;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.icon.inline {
+  margin-right: 10px;
+}

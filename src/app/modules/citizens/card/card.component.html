@@ -1,1 +1,25 @@
-<p>card works!</p>
+<div class="card"
+  *ngIf="!editMode">
+  <div class="card-avatar">
+    <img [src]="avatar">
+  </div>
+  <div class="card-edit-btn"
+    (click)="edit()"
+    [innerHtml]="icons.EDIT_ICON | avoidSanitize">
+  </div>
+  <div class="card-content">
+    <h2 class="card-content-name"
+      [attr.data-age]="person.age + ' years'"> {{person.name}}</h2>
+    <p class="card-content-note"
+      [attr.data-note]="person.note.length > notesMaxDisplay"><span
+        [innerHtml]="icons.NOTE_ICON | avoidSanitize"></span>{{person.note | slice:0:notesMaxDisplay}} </p>
+    <div class="card-content-city"><span [innerHtml]="icons.CITY_ICON | avoidSanitize"></span>{{person.city}}</div>
+  </div>
+</div>
+<div class="card"
+  *ngIf="editMode">
+  <app-form type="edit"
+    [person]="person"
+    (onBack)="hideForm()"
+    (onSubmit)="submit($event)"></app-form>
+</div>
