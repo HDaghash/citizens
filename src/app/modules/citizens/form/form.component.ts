@@ -11,30 +11,27 @@ export class FormComponent implements OnInit {
   @Input('citizen') citizen: ICitizen;
   @Output('onBack') onBack = new EventEmitter();
   @Output('onSubmit') onSubmit = new EventEmitter();
-
+  action: string;
   form = this.fb.group({
-    name: [
-      null
-      // [Validators.required, Validators.minLength(3)]
-    ],
+    name: [null, [Validators.required, Validators.minLength(3)]],
     age: [
       null,
       [
-        // Validators.required,
-        // Validators.pattern(/^[0-9]*$/),
-        // Validators.maxLength(3)
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/),
+        Validators.maxLength(3)
       ]
     ],
     city: [
-      null
-      // [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+      null,
+      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
     note: [
-      null
-      // [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
+      null,
+      [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]
   });
-  action: string;
+
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {

@@ -11,9 +11,8 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  readonly title = 'Citizens';
   readonly citizenIcon = CITIZENS_ICON;
-  total = 20;
+  total: number = 20;
   isAdding: boolean;
   addingMode: boolean;
   avatars: string[] = [];
@@ -57,7 +56,6 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       }
     );
-    // this.citizensService.getCitizens();
   }
 
   addCitizen() {
@@ -72,24 +70,14 @@ export class ListComponent implements OnInit {
     this.isAdding = true;
     this.citizensService
       .addCitizen($event)
-      .then(response => {
+      .then(() => {
         this.messgaes.success('Citizen has been added 🎉');
         this.isAdding = false;
       })
-      .catch(err => {
+      .catch(error => {
+        const message = error || 'Somthing went wrong!';
         this.isAdding = false;
-        // TO BE GENERIC
-        if (err.message) {
-          const matches = err.message.match(/\{(.*?)\}/);
-          console.log(err);
-          try {
-            const error = JSON.parse(matches[0]);
-            const message = error.message;
-            this.messgaes.info(message);
-          } catch {
-            this.messgaes.info('Somthing went wrong !');
-          }
-        }
+        this.messgaes.info(message);
       });
   }
 }
