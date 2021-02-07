@@ -11,7 +11,10 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { NzInputModule } from 'ng-zorro-antd/input';
-import { CitizenContractService } from 'app/services/citizen-contract/citizen-contract.service';
+import { CitizensService } from 'app/services/citizens/citizens.service';
+import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { ContractService } from 'app/services/contract/contract.service';
 
 @NgModule({
   declarations: [AvoidSanitizePipe],
@@ -25,7 +28,9 @@ import { CitizenContractService } from 'app/services/citizen-contract/citizen-co
     NzButtonModule,
     NzIconModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzMessageModule,
+    NzSpinModule
   ],
   exports: [
     FormsModule,
@@ -38,8 +43,10 @@ import { CitizenContractService } from 'app/services/citizen-contract/citizen-co
     NzButtonModule,
     NzIconModule,
     NzFormModule,
-    NzInputModule
+    NzInputModule,
+    NzMessageModule,
+    NzSpinModule
   ],
-  providers: [AvatarsService, CitizenContractService]
+  providers: [AvatarsService, CitizensService, ContractService]
 })
 export class SharedModule {}

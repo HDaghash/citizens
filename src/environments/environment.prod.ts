@@ -1,4 +1,13 @@
 export const environment = {
-  production: true,
-  AVATARS_ROOT: 'https://tinyfac.es/api/users'
+  production: false,
+  API: {
+    AVATARS_ROOT: 'https://tinyfac.es/api/users'
+  },
+  WALLET: {
+    INFURA_ID: 'INFURA_ID'
+  },
+  ETHEREUM: {
+    NETWORK: 'ropsten',
+    ADDRESS: '0xb5842e2384f5b6f1dbec5e130c75e82d3803c3d3'
+  }
 };

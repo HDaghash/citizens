@@ -2,7 +2,9 @@
 const fs = require("fs");
 const f =
   "node_modules/@angular-devkit/build-angular/src/webpack/configs/browser.js";
-console.log("<............... Hello its me...............>");
+console.log(
+  "<............... fixing some crypto related configrations ...............>"
+);
 fs.readFile(f, "utf8", function(err, data) {
   if (err) {
     return console.log(err);

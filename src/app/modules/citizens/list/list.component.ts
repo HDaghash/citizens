@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
-import { IPerson } from './types';
 import { CITIZENS_ICON } from './config';
-import { CitizenContractService } from 'app/services/citizen-contract/citizen-contract.service';
+import { CitizensService } from 'app/services/citizens/citizens.service';
+import { ICitizen } from 'app/services/citizens/types';
+import { NzMessageService } from 'ng-zorro-antd/message';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -11,7 +13,14 @@ import { CitizenContractService } from 'app/services/citizen-contract/citizen-co
 export class ListComponent implements OnInit {
   readonly title = 'Citizens';
   readonly citizenIcon = CITIZENS_ICON;
-  persons: IPerson[] = [
+  total = 20;
+  isAdding: boolean;
+  addingMode: boolean;
+  avatars: string[] = [];
+  pageSize: number = 4;
+  loaderItems = Array.from(Array(this.pageSize + 1).keys());
+  isLoading: boolean = true;
+  citizens: ICitizen[] = [
     {
       name: 'Hasan Daghash',
       age: 28,
@@ -27,16 +36,10 @@ export class ListComponent implements OnInit {
         "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
     }
   ];
-  addingMode: boolean;
-  avatars: string[] = [];
-
-  pageSize: number = 4;
-  loaderItems = Array.from(Array(this.pageSize + 1).keys());
-  isLoading: boolean = true;
-  total = 20;
   constructor(
     private avatarsService: AvatarsService,
-    private citizenContractService: CitizenContractService
+    private citizensService: CitizensService,
+    private messgaes: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -54,7 +57,7 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       }
     );
-    this.citizenContractService.connectAccount();
+    // this.citizensService.getCitizens();
   }
 
   addCitizen() {
@@ -66,6 +69,27 @@ export class ListComponent implements OnInit {
   }
 
   submit($event) {
-    console.log($event);
+    this.isAdding = true;
+    this.citizensService
+      .addCitizen($event)
+      .then(response => {
+        this.messgaes.success('Citizen has been added 🎉');
+        this.isAdding = false;
+      })
+      .catch(err => {
+        this.isAdding = false;
+        // TO BE GENERIC
+        if (err.message) {
+          const matches = err.message.match(/\{(.*?)\}/);
+          console.log(err);
+          try {
+            const error = JSON.parse(matches[0]);
+            const message = error.message;
+            this.messgaes.info(message);
+          } catch {
+            this.messgaes.info('Somthing went wrong !');
+          }
+        }
+      });
   }
 }

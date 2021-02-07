@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IPerson } from '../list/types';
+import { ICitizen } from 'app/services/citizens/types';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -8,27 +8,30 @@ import { IPerson } from '../list/types';
 })
 export class FormComponent implements OnInit {
   @Input('type') type: 'add' | 'edit';
-  @Input('person') person: IPerson;
+  @Input('citizen') citizen: ICitizen;
   @Output('onBack') onBack = new EventEmitter();
   @Output('onSubmit') onSubmit = new EventEmitter();
 
   form = this.fb.group({
-    name: [null, [Validators.required, Validators.minLength(3)]],
+    name: [
+      null
+      // [Validators.required, Validators.minLength(3)]
+    ],
     age: [
       null,
       [
-        Validators.required,
-        Validators.pattern(/^[0-9]*$/),
-        Validators.maxLength(3)
+        // Validators.required,
+        // Validators.pattern(/^[0-9]*$/),
+        // Validators.maxLength(3)
       ]
     ],
     city: [
-      null,
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
+      null
+      // [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
     note: [
-      null,
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
+      null
+      // [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]
   });
   action: string;
@@ -36,8 +39,8 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.action = this.type === 'add' ? 'Add Citizen' : 'Save Change';
-    if (this.person) {
-      this.form.setValue(this.person);
+    if (this.citizen) {
+      this.form.setValue(this.citizen);
     }
   }
 

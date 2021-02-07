@@ -1,5 +1,3 @@
-export const CITIZENS_ADDRESS = '0xb5842e2384f5b6f1dbec5e130c75e82d3803c3d3';
-
 export const CITIZENS_ABI = [
   {
     inputs: [],
