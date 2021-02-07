@@ -17,21 +17,20 @@ export class CitizenContractService {
   private newOrganization = new Subject<any>();
   newOrganization$ = this.newOrganization.asObservable();
 
-  constructor() {}
-  init() {
+  constructor() {
     const providerOptions = {
       walletconnect: {
-        package: WalletConnectProvider, // required
+        package: WalletConnectProvider,
         options: {
-          infuraId: 'INFURA_ID' // required
+          infuraId: 'INFURA_ID'
         }
       }
     };
 
     this.web3Modal = new Web3Modal({
-      network: 'ropsten', // optional
-      cacheProvider: true, // optional
-      providerOptions, // required
+      network: 'ropsten',
+      cacheProvider: true,
+      providerOptions,
       theme: {
         background: 'rgb(39, 49, 56)',
         main: 'rgb(199, 199, 199)',
@@ -40,28 +39,28 @@ export class CitizenContractService {
         hover: 'rgb(16, 26, 32)'
       }
     });
-    console.log('inited');
   }
-  // async connectAccount() {
-  //   this.web3Modal.clearCachedProvider();
 
-  //   this.provider = await this.web3Modal.connect();
-  //   this.web3js = new Web3(this.provider);
-  //   this.accounts = await this.web3js.eth.getAccounts();
-  //   this.accountStatusSource.next(this.accounts);
-  // }
+  async connectAccount() {
+    this.web3Modal.clearCachedProvider();
 
-  // async getCitizen() {
-  //   this.provider = await this.web3Modal.connect(); // set provider
-  //   this.web3js = new Web3(this.provider); // create web3 instance
-  //   this.accounts = await this.web3js.eth.getAccounts();
+    this.provider = await this.web3Modal.connect();
+    this.web3js = new Web3(this.provider);
+    this.accounts = await this.web3js.eth.getAccounts();
+    this.accountStatusSource.next(this.accounts);
+  }
 
-  //   this.citizen = new this.web3js.eth.Contract(CITIZENS_ABI, CITIZENS_ADDRESS);
+  async getCitizen() {
+    this.provider = await this.web3Modal.connect();
+    this.web3js = new Web3(this.provider);
+    this.accounts = await this.web3js.eth.getAccounts();
 
-  //   const citizens = await this.citizen.methods
-  //     .getCitizens()
-  //     .call({ from: this.accounts[0] });
+    this.citizen = new this.web3js.eth.Contract(CITIZENS_ABI, CITIZENS_ADDRESS);
 
-  //   return citizens;
-  // }
+    const citizens = await this.citizen.methods
+      .getCitizens()
+      .call({ from: this.accounts[0] });
+
+    return citizens;
+  }
 }

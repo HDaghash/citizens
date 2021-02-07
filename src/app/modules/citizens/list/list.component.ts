@@ -54,7 +54,7 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       }
     );
-    this.citizenContractService.init();
+    this.citizenContractService.connectAccount();
   }
 
   addCitizen() {
