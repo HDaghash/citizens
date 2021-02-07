@@ -4,7 +4,7 @@ import { HttpService } from 'app/services/http/http.service';
 
 @Injectable()
 export class AvatarsService {
-  API_URL = environment.AVATARS_ROOT;
+  API_URL = environment.API.AVATARS_ROOT;
 
   constructor(private http: HttpService) {}
 

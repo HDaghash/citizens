@@ -7,7 +7,7 @@ import { ICONS } from './config';
 })
 export class CardComponent implements OnInit {
   @Input('avatar') avatar;
-  @Input('person') person;
+  @Input('citizen') citizen;
   readonly notesMaxDisplay = 60;
   readonly icons = ICONS;
   editMode: boolean;

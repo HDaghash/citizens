@@ -42,15 +42,18 @@
       </nz-row>
     </div>
     <div *ngIf="addingMode">
-      <app-form type="add"
-        (onBack)="hideForm()"
-        (onSubmit)="submit($event)"></app-form>
+      <nz-spin nzTip="Loading..."
+        [nzSpinning]="isAdding">
+        <app-form type="add"
+          (onBack)="hideForm()"
+          (onSubmit)="submit($event)"></app-form>
+      </nz-spin>
     </div>
   </nz-col>
   <nz-col class="item"
     *ngFor="let avatar of avatars| slice:0:pageSize">
     <app-card [avatar]="avatar"
-      [person]="persons[1]"></app-card>
+      [citizen]="citizens[1]"></app-card>
   </nz-col>
 </nz-row>
 <nz-row nzType="flex"

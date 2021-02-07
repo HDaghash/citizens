@@ -1,4 +1,4 @@
-export interface IPerson {
+export interface ICitizen {
   name: string;
   age: number;
   note: string;
