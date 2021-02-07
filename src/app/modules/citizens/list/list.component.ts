@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
 import { IPerson } from './types';
 import { CITIZENS_ICON } from './config';
+import { CitizenContractService } from 'app/services/citizen-contract/citizen-contract.service';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -33,7 +34,10 @@ export class ListComponent implements OnInit {
   loaderItems = Array.from(Array(this.pageSize + 1).keys());
   isLoading: boolean = true;
   total = 20;
-  constructor(private avatarsService: AvatarsService) {}
+  constructor(
+    private avatarsService: AvatarsService,
+    private citizenContractService: CitizenContractService
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -50,6 +54,7 @@ export class ListComponent implements OnInit {
         this.isLoading = false;
       }
     );
+    this.citizenContractService.init();
   }
 
   addCitizen() {
