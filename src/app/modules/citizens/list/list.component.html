@@ -53,8 +53,12 @@
   <ng-container *ngIf="!isLoading">
     <nz-col class="item"
       *ngFor="let citizen of citizens;let i=index">
-      <app-card [avatar]="avatars[i] ? avatars[i] : '../../assets/images/undraw_image_upload_wqh3.svg'"
-        [citizen]="citizen"></app-card>
+      <nz-spin nzTip="Loading..."
+        [nzSpinning]="isCardLoading && i == cardIndex">
+        <app-card (onShowNote)="getNoteById($event,i)"
+          [avatar]="avatars[i] ? avatars[i] : '../../assets/images/undraw_image_upload_wqh3.svg'"
+          [citizen]="citizen"></app-card>
+      </nz-spin>
     </nz-col>
   </ng-container>
 </nz-row>

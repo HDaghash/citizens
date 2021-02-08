@@ -11,6 +11,8 @@
     <h2 class="card-content-name"
       [attr.data-age]="citizen.age + ' years'"> {{citizen.name}}</h2>
     <button nz-button
+      [disabled]="!citizen.id"
+      (click)="showNote(citizen.id)"
       nzType="primary"
       nzBlock><i nz-icon
         nzType="comment"

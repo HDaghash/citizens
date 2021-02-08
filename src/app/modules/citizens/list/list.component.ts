@@ -5,6 +5,8 @@ import { CitizensService } from 'app/services/citizens/citizens.service';
 import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IReturnedValues } from './types';
+import { NzModalService } from 'ng-zorro-antd/modal';
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -14,7 +16,9 @@ export class ListComponent implements OnInit {
   readonly citizenIcon = CITIZENS_ICON;
   total: number = 20;
   isAdding: boolean;
+  isCardLoading: boolean;
   addingMode: boolean;
+  cardIndex: Number;
   avatars: string[] = [];
   pageSize: number = 4;
   loaderItems = Array.from(Array(this.pageSize + 1).keys());
@@ -23,12 +27,13 @@ export class ListComponent implements OnInit {
   constructor(
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
-    private messgaes: NzMessageService
+    private messgaes: NzMessageService,
+    private modal: NzModalService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.citizensService.watchCitizens();
+    this.citizensService.getPastEvents();
 
     this.avatarsService.getAvatars().subscribe(response => {
       if (response) {
@@ -42,7 +47,6 @@ export class ListComponent implements OnInit {
       (response: IReturnedValues[]) => {
         this.citizens = this.mapCitizens(response);
         this.isLoading = false;
-        console.log(response);
       }
     );
   }
@@ -63,7 +67,7 @@ export class ListComponent implements OnInit {
         this.isAdding = false;
         this.isLoading = true;
         this.messgaes.success('Citizen has been added 🎉');
-        this.citizensService.watchCitizens();
+        this.citizensService.getPastEvents();
       })
       .catch(error => {
         const message = error || 'Somthing went wrong!';
@@ -72,12 +76,30 @@ export class ListComponent implements OnInit {
       });
   }
 
+  getNoteById(id, index) {
+    this.isCardLoading = true;
+    this.cardIndex = index;
+    this.citizensService.getCitizenNoteById(id).then(
+      response => {
+        this.modal.create({
+          nzTitle: 'Note',
+          nzContent: response,
+          nzClosable: true
+        });
+        this.isCardLoading = false;
+      },
+      errror => {
+        this.isCardLoading = false;
+      }
+    );
+  }
+
   mapCitizens(resposne: IReturnedValues[]) {
     let citizens = [];
     if (resposne) {
       citizens = resposne.map(citizen => {
-        const { id, age, city, name, someNote } = citizen.returnValues;
-        return { id, age, city, name, someNote };
+        const { id, age, city, name } = citizen.returnValues;
+        return { id, age, city, name };
       });
     }
     return citizens;

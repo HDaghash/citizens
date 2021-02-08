@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICONS } from './config';
 @Component({
   selector: 'app-card',
@@ -6,6 +6,7 @@ import { ICONS } from './config';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
+  @Output('onShowNote') onShowNote = new EventEmitter();
   @Input('avatar') avatar;
   @Input('citizen') citizen;
   readonly notesMaxDisplay = 60;
@@ -23,5 +24,9 @@ export class CardComponent implements OnInit {
 
   hideForm() {
     this.editMode = false;
+  }
+
+  showNote(id: number) {
+    this.onShowNote.emit(id);
   }
 }

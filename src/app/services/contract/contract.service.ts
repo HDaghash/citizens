@@ -4,13 +4,19 @@ import WalletConnectProvider from '@walletconnect/web3-provider';
 import { Injectable } from '@angular/core';
 import { MODAL_THEME } from './config';
 import { environment } from 'environments/environment';
+import { AbiItem } from '../citizens/abi';
 
 @Injectable()
 export class ContractService {
-  public web3js: any;
-  public provider: any;
-  public accounts: any;
-  public web3Modal: any;
+  private web3js: any;
+  private provider: any;
+  private accounts: any;
+  private web3Modal: any;
+  private socket = new Web3(environment.INFURA.SOCKET_URL);
+  private httpProvider = new Web3.providers.HttpProvider(
+    environment.INFURA.PROVIDER_URL
+  );
+  private web3Provider = new Web3(this.httpProvider);
 
   constructor() {
     this.initWallet();
@@ -43,5 +49,13 @@ export class ContractService {
   async getAccount() {
     await this.connectAccount();
     return { web3js: this.web3js, accounts: this.accounts };
+  }
+
+  getHttpProvider(abi: AbiItem, address: string) {
+    return new this.web3Provider.eth.Contract(abi, address);
+  }
+
+  getSocketContract(abi: AbiItem, address: string) {
+    return new this.socket.eth.Contract(abi, address);
   }
 }

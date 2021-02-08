@@ -4,7 +4,6 @@ import { ICitizen } from './types';
 import { ContractService } from 'app/services/contract/contract.service';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
-import Web3 from 'web3';
 
 @Injectable()
 export class CitizensService {
@@ -29,15 +28,23 @@ export class CitizensService {
       });
   }
 
-  watchCitizens() {
-    let web3 = new Web3(environment.INFURA.SOCKET_URL);
-    let contract = new web3.eth.Contract(
-      // @ts-ignore
-      CITIZENS_ABI,
-      environment.ETHEREUM.ADDRESS
+  getCitizenNoteById(id: number) {
+    return (
+      this.contractService
+        // @ts-ignore
+        .getSocketContract(CITIZENS_ABI, environment.ETHEREUM.ADDRESS)
+        .methods.getNoteByCitizenId(id)
+        .call()
     );
-    contract.getPastEvents('Citizen', { fromBlock: '0' }).then(response => {
-      this.onPastEvenets.next(response);
-    });
+  }
+
+  getPastEvents() {
+    this.contractService
+      // @ts-ignore
+      .getSocketContract(CITIZENS_ABI, environment.ETHEREUM.ADDRESS)
+      .getPastEvents('Citizen', { fromBlock: '0' })
+      .then(response => {
+        this.onPastEvenets.next(response);
+      });
   }
 }
