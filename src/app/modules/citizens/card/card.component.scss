@@ -2,7 +2,6 @@
   position: relative;
   max-width: 300px;
   min-width: 200px;
-
   height: 500px;
   border-radius: 30px;
   background: #fff;
@@ -34,6 +33,10 @@
   }
 
   &-content {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
     padding: 20px;
 
     &-name {

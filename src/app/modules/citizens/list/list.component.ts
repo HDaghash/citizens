@@ -28,25 +28,20 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.avatarsService.getAvatars().subscribe(
-      response => {
-        if (response) {
-          this.avatars = response.map(item => {
-            return item.avatars[1].url;
-          });
-          this.isLoading = false;
-        }
-      },
-      error => {
-        this.isLoading = false;
-      }
-    );
+    this.citizensService.watchCitizens();
 
-    this.citizensService.watchCitizen();
+    this.avatarsService.getAvatars().subscribe(response => {
+      if (response) {
+        this.avatars = response.map(item => {
+          return item.avatars[1].url;
+        });
+      }
+    });
 
     this.citizensService.onPastEvenets.subscribe(
       (response: IReturnedValues[]) => {
         this.citizens = this.mapCitizens(response);
+        this.isLoading = false;
         console.log(response);
       }
     );
@@ -65,8 +60,10 @@ export class ListComponent implements OnInit {
     this.citizensService
       .addCitizen($event)
       .then(() => {
-        this.messgaes.success('Citizen has been added 🎉');
         this.isAdding = false;
+        this.isLoading = true;
+        this.messgaes.success('Citizen has been added 🎉');
+        this.citizensService.watchCitizens();
       })
       .catch(error => {
         const message = error || 'Somthing went wrong!';
@@ -76,11 +73,13 @@ export class ListComponent implements OnInit {
   }
 
   mapCitizens(resposne: IReturnedValues[]) {
+    let citizens = [];
     if (resposne) {
-      return resposne.map(citizen => {
+      citizens = resposne.map(citizen => {
         const { id, age, city, name, someNote } = citizen.returnValues;
         return { id, age, city, name, someNote };
       });
     }
+    return citizens;
   }
 }

@@ -29,14 +29,14 @@ export class CitizensService {
       });
   }
 
-  watchCitizen() {
+  watchCitizens() {
     let web3 = new Web3(environment.INFURA.SOCKET_URL);
     let contract = new web3.eth.Contract(
       // @ts-ignore
       CITIZENS_ABI,
       environment.ETHEREUM.ADDRESS
     );
-    contract.getPastEvents('Citizen', { fromBlock: 0 }).then(response => {
+    contract.getPastEvents('Citizen', { fromBlock: '0' }).then(response => {
       this.onPastEvenets.next(response);
     });
   }

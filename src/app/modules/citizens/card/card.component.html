@@ -12,7 +12,9 @@
       [attr.data-age]="citizen.age + ' years'"> {{citizen.name}}</h2>
     <button nz-button
       nzType="primary"
-      nzBlock>Show More Info</button>
+      nzBlock><i nz-icon
+        nzType="comment"
+        nzTheme="outline"></i> Show Notes</button>
     <div class="card-content-city"><span [innerHtml]="icons.CITY_ICON | avoidSanitize"></span>{{citizen.city}}</div>
   </div>
 </div>
