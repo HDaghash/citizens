@@ -26,7 +26,7 @@ export class FormComponent implements OnInit {
       null,
       [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
     ],
-    note: [
+    someNote: [
       null,
       [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
     ]

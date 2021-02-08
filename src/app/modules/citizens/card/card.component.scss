@@ -49,15 +49,6 @@
       }
     }
 
-    &-note {
-      display: flex;
-    }
-
-    [data-note='true'] {
-      &::after {
-        content: '...';
-      }
-    }
 
     &-city {
       white-space: nowrap;

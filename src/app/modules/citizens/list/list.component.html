@@ -51,9 +51,9 @@
     </div>
   </nz-col>
   <nz-col class="item"
-    *ngFor="let avatar of avatars| slice:0:pageSize">
-    <app-card [avatar]="avatar"
-      [citizen]="citizens[1]"></app-card>
+    *ngFor="let citizen of citizens;let i=index">
+    <app-card [avatar]="avatars[i] ? avatars[i] : '../../assets/images/undraw_image_upload_wqh3.svg'"
+      [citizen]="citizen"></app-card>
   </nz-col>
 </nz-row>
 <nz-row nzType="flex"

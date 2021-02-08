@@ -4,7 +4,7 @@ import { CITIZENS_ICON } from './config';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { IReturnedValues } from './types';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -19,22 +19,7 @@ export class ListComponent implements OnInit {
   pageSize: number = 4;
   loaderItems = Array.from(Array(this.pageSize + 1).keys());
   isLoading: boolean = true;
-  citizens: ICitizen[] = [
-    {
-      name: 'Hasan Daghash',
-      age: 28,
-      city: 'Dubai',
-      note: 'Citizen since 1992'
-    },
-
-    {
-      name: 'Mohammad Khaled Ahmad Kahled',
-      age: 28,
-      city: 'Amman',
-      note:
-        "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
-    }
-  ];
+  citizens: ICitizen[] = [];
   constructor(
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
@@ -54,6 +39,15 @@ export class ListComponent implements OnInit {
       },
       error => {
         this.isLoading = false;
+      }
+    );
+
+    this.citizensService.watchCitizen();
+
+    this.citizensService.onPastEvenets.subscribe(
+      (response: IReturnedValues[]) => {
+        this.citizens = this.mapCitizens(response);
+        console.log(response);
       }
     );
   }
@@ -79,5 +73,14 @@ export class ListComponent implements OnInit {
         this.isAdding = false;
         this.messgaes.info(message);
       });
+  }
+
+  mapCitizens(resposne: IReturnedValues[]) {
+    if (resposne) {
+      return resposne.map(citizen => {
+        const { id, age, city, name, someNote } = citizen.returnValues;
+        return { id, age, city, name, someNote };
+      });
+    }
   }
 }

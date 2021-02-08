@@ -1,6 +1,7 @@
 export interface ICitizen {
+  id?: number;
   name: string;
   age: number;
-  note: string;
   city: string;
+  someNote: string;
 }
