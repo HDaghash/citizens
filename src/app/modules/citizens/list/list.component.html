@@ -57,7 +57,8 @@
         [nzSpinning]="isCardLoading && i == cardIndex">
         <app-card (onShowNote)="getNoteById($event,i)"
           [avatar]="avatars[i] ? avatars[i] : '../../assets/images/undraw_image_upload_wqh3.svg'"
-          [citizen]="citizen"></app-card>
+          [citizen]="citizen"
+          (onSubmit)="submit($event)"></app-card>
       </nz-spin>
     </nz-col>
   </ng-container>

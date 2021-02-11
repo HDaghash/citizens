@@ -15,6 +15,7 @@ import { CitizensService } from 'app/services/citizens/citizens.service';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ContractService } from 'app/services/contract/contract.service';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [AvoidSanitizePipe],
@@ -31,7 +32,8 @@ import { ContractService } from 'app/services/contract/contract.service';
     NzInputModule,
     NzMessageModule,
     NzSpinModule,
-    NzModalModule
+    NzModalModule,
+    NzToolTipModule
   ],
   exports: [
     FormsModule,
@@ -47,7 +49,8 @@ import { ContractService } from 'app/services/contract/contract.service';
     NzInputModule,
     NzMessageModule,
     NzSpinModule,
-    NzModalModule
+    NzModalModule,
+    NzToolTipModule
   ],
   providers: [AvatarsService, CitizensService, ContractService]
 })
