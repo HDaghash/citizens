@@ -85,7 +85,9 @@ export class ListComponent implements OnInit {
         this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
       })
       .catch(error => {
-        const message = this.handleError(error.message);
+        const message = error
+          ? this.handleError(error.message)
+          : this.handleError(error);
         this.messgaes.error(message);
         this.isAdding = false;
       });
