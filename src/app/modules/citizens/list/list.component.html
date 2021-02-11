@@ -66,10 +66,13 @@
 <nz-row nzType="flex"
   nzJustify="start"
   nzAlign="middle"
-  class="pagination">
-  <nz-pagination [nzPageSize]="pageSize"
-    [(nzPageIndex)]="currentPage"
-    (nzPageIndexChange)="onPaginate($event)"
-    nzSize="large"
-    [nzTotal]="total"></nz-pagination>
+  class="pagination"
+  *ngIf="!isLoading">
+  <nz-col>
+    <nz-pagination [nzPageSize]="pageSize"
+      [(nzPageIndex)]="currentPage"
+      (nzPageIndexChange)="onPaginate($event)"
+      nzSize="large"
+      [nzTotal]="total"></nz-pagination>
+  </nz-col>
 </nz-row>
