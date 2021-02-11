@@ -16,7 +16,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ContractService } from 'app/services/contract/contract.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-
+import { FormService } from 'app/services/forms/forms.service';
 @NgModule({
   declarations: [AvoidSanitizePipe],
   imports: [
@@ -52,6 +52,6 @@ import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
     NzModalModule,
     NzToolTipModule
   ],
-  providers: [AvatarsService, CitizensService, ContractService]
+  providers: [AvatarsService, CitizensService, ContractService, FormService]
 })
 export class SharedModule {}

@@ -19,42 +19,47 @@
     <nz-form-item>
       <nz-form-label nzRequired
         nzFor="name">Name</nz-form-label>
-      <nz-form-control nzErrorTip="Please input vaild name">
+      <nz-form-control [nzErrorTip]="nameError">
         <input type="text"
           nz-input
           formControlName="name"
           placeholder="Please input name" />
       </nz-form-control>
+      <ng-template #nameError>Name should be at least 4 letters. </ng-template>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired
         nzFor="name">Age</nz-form-label>
-      <nz-form-control nzErrorTip="Please input vaild age">
+      <nz-form-control [nzErrorTip]="ageError">
         <input type="text"
           nz-input
           formControlName="age"
           placeholder="Please input age" />
       </nz-form-control>
+      <ng-template #ageError>Age should be between (18-150). </ng-template>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired
         nzFor="name">City</nz-form-label>
-      <nz-form-control nzErrorTip="Please input vaild city">
+      <nz-form-control [nzErrorTip]="cityError">
         <input type="text"
           nz-input
           formControlName="city"
           placeholder="Please input city" />
+        <ng-template #cityError>City should be at least 3 letters. </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzRequired
         nzFor="name">Note</nz-form-label>
-      <nz-form-control nzErrorTip="Please input vaild note">
+      <nz-form-control [nzErrorTip]="noteError">
         <textarea type="text"
           nz-input
           formControlName="someNote"
           [nzAutosize]="{ minRows: 2, maxRows: 2 }"
-          placeholder="Please input note"> </textarea></nz-form-control>
+          placeholder="Please input note"> </textarea>
+        <ng-template #noteError>Note should be at least 3 letters. </ng-template>
+      </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <button nz-button

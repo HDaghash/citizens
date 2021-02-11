@@ -2,6 +2,7 @@ import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICitizen } from 'app/services/citizens/types';
 import { CitizensService } from 'app/services/citizens/citizens.service';
+import { FormService } from 'app/services/forms/forms.service';
 
 @Component({
   selector: 'app-form',
@@ -16,13 +17,13 @@ export class FormComponent implements OnInit {
   isLoading: boolean;
   action: string;
   form = this.fb.group({
-    name: [null, [Validators.required, Validators.minLength(3)]],
+    name: [null, [Validators.required, Validators.minLength(4)]],
     age: [
       null,
       [
         Validators.required,
-        Validators.pattern(/^[0-9]*$/),
-        Validators.maxLength(3)
+        Validators.maxLength(3),
+        Validators.pattern(/(?:1[89]|[2-9][0-9]|1[0-4][0-9]|150)/)
       ]
     ],
     city: [null, [Validators.required, Validators.minLength(3)]],
@@ -31,7 +32,8 @@ export class FormComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private citizensService: CitizensService
+    private citizensService: CitizensService,
+    private formService: FormService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +63,8 @@ export class FormComponent implements OnInit {
     if (this.form.valid) {
       const data = this.form.value;
       this.onSubmit.emit(data);
+    } else {
+      this.formService.updateFormValidity(this.form);
     }
   }
 

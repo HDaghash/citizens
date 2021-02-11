@@ -129,19 +129,22 @@ export class ListComponent implements OnInit {
     });
   }
 
-  handleError(error) {
-    const errorMesasage = 'Somthing went wrong!';
-    if (typeof error === 'string') {
-      const errorWord = error.match(/Error: [\s\S]*:/i);
-      return errorWord ? errorWord : errorMesasage;
-    }
-    return error ? error.message : errorMesasage;
-  }
-
   onPaginate(page) {
     const start = page * this.pageSize - this.pageSize;
     const end = start + this.pageSize;
     this.currentPage = page;
     this.getCitizenWithAvatr({ start, end });
+  }
+
+  handleError(error) {
+    //TODO:  temp BE fix invalid json return
+    const errorMesasage = 'Somthing went wrong!';
+    if (typeof error === 'string') {
+      const errorText = error.includes('{')
+        ? error.match(/Error: [\s\S]*:/i)
+        : error;
+      return errorText ? errorText : errorMesasage;
+    }
+    return error ? error.message : errorMesasage;
   }
 }
