@@ -1,17 +1,24 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FormComponent } from './form.component';
+import { HttpService } from 'app/services/http/http.service';
+import { SharedModule } from 'app/shared/shared.module';
+import { CitizensService } from 'app/services/citizens/citizens.service';
+import { HttpClient, HttpHandler } from '@angular/common/http';
 
 describe('FormComponent', () => {
   let component: FormComponent;
   let fixture: ComponentFixture<FormComponent>;
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({
-      declarations: [ FormComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, FormsModule, SharedModule],
+        declarations: [FormComponent],
+        providers: [HttpService, CitizensService, HttpClient, HttpHandler]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormComponent);
@@ -21,5 +28,13 @@ describe('FormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('empty form is invalid', () => {
+    component.form.controls.name.setValue('');
+    component.form.controls.age.setValue('');
+    component.form.controls.city.setValue('');
+    component.form.controls.someNote.setValue('');
+    expect(component.form.valid).toBeFalsy();
   });
 });

@@ -146,7 +146,7 @@ export class ListComponent implements OnInit {
   }
 
   handleError(error) {
-    //TODO:  temp BE fix invalid json return
+    //TODO:temp smart contract need fix invalid json
     const errorMesasage = 'Somthing went wrong!';
     if (typeof error === 'string') {
       const errorText = error.includes('{')

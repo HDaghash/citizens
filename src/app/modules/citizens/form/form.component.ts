@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ICitizen } from 'app/services/citizens/types';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { FormService } from 'app/services/forms/forms.service';
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
