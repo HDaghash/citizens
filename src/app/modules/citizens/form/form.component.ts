@@ -22,14 +22,8 @@ export class FormComponent implements OnInit {
         Validators.maxLength(3)
       ]
     ],
-    city: [
-      null,
-      [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
-    someNote: [
-      null,
-      [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
-    ]
+    city: [null, [Validators.required, Validators.minLength(3)]],
+    someNote: [null, [Validators.required, Validators.minLength(3)]]
   });
 
   constructor(private fb: FormBuilder) {}
@@ -37,7 +31,9 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
     this.action = this.type === 'add' ? 'Add Citizen' : 'Save Change';
     if (this.citizen) {
-      this.form.setValue(this.citizen);
+      const { name, age, city } = this.citizen;
+      const data = { name, age, city, someNote: '' };
+      this.form.setValue(data);
     }
   }
 

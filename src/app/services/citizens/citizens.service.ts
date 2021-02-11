@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { CITIZENS_ABI } from './abi';
 import { ICitizen } from './types';
 import { ContractService } from 'app/services/contract/contract.service';
+import { Contract } from 'web3-eth-contract';
 import { environment } from 'environments/environment';
 import { Subject } from 'rxjs';
-
+import { HttpService } from '../http/http.service';
 @Injectable()
 export class CitizensService {
   onPastEvenets = new Subject();
-  citizen: any;
+  citizen: Contract;
 
-  constructor(private contractService: ContractService) {}
+  constructor(
+    private contractService: ContractService,
+    private httpService: HttpService
+  ) {}
 
   async addCitizen(citizen: ICitizen) {
     return this.contractService
@@ -29,22 +33,33 @@ export class CitizensService {
   }
 
   getCitizenNoteById(id: number) {
-    return (
-      this.contractService
-        // @ts-ignore
-        .getSocketContract(CITIZENS_ABI, environment.ETHEREUM.ADDRESS)
-        .methods.getNoteByCitizenId(id)
-        .call()
-    );
+    return this.httpService.invoke({
+      method: 'POST',
+      url: environment.CLOUDFLARE_WORKER,
+      path: '?method=getCitizenById',
+      body: {
+        infuraUrl: environment.INFURA_URL,
+        address: environment.ETHEREUM.ADDRESS,
+        abi: CITIZENS_ABI,
+        id
+      }
+    });
   }
 
-  getPastEvents() {
-    this.contractService
-      // @ts-ignore
-      .getSocketContract(CITIZENS_ABI, environment.ETHEREUM.ADDRESS)
-      .getPastEvents('Citizen', { fromBlock: '0' })
-      .then(response => {
-        this.onPastEvenets.next(response);
-      });
+  getPastEvents(filters, { start, end }) {
+    return this.httpService.invoke({
+      method: 'POST',
+      url: environment.CLOUDFLARE_WORKER,
+      path: '?method=getPastEvents',
+      body: {
+        event: 'Citizen',
+        infuraUrl: environment.INFURA_URL,
+        address: environment.ETHEREUM.ADDRESS,
+        abi: CITIZENS_ABI,
+        filters,
+        start,
+        end
+      }
+    });
   }
 }

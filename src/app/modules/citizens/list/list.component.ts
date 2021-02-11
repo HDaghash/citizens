@@ -24,6 +24,7 @@ export class ListComponent implements OnInit {
   loaderItems = Array.from(Array(this.pageSize + 1).keys());
   isLoading: boolean = true;
   citizens: ICitizen[] = [];
+  currentPage = 1;
   constructor(
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
@@ -32,9 +33,6 @@ export class ListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.citizensService.getPastEvents();
-
     this.avatarsService.getAvatars().subscribe(response => {
       if (response) {
         this.avatars = response.map(item => {
@@ -43,12 +41,26 @@ export class ListComponent implements OnInit {
       }
     });
 
-    this.citizensService.onPastEvenets.subscribe(
-      (response: IReturnedValues[]) => {
-        this.citizens = this.mapCitizens(response);
-        this.isLoading = false;
-      }
-    );
+    this.getPastEvents({ start: 0, end: this.pageSize });
+  }
+
+  getPastEvents({ start, end }) {
+    this.isLoading = true;
+    this.citizensService
+      .getPastEvents(
+        { fromBlock: 'earliest', toBlock: 'latest' },
+        { start, end }
+      )
+      .subscribe(
+        (response: IReturnedValues[]) => {
+          this.isLoading = false;
+          this.citizens = this.mapCitizens(response);
+          this.isLoading = false;
+        },
+        error => {
+          this.isLoading = false;
+        }
+      );
   }
 
   addCitizen() {
@@ -67,7 +79,7 @@ export class ListComponent implements OnInit {
         this.isAdding = false;
         this.isLoading = true;
         this.messgaes.success('Citizen has been added 🎉');
-        this.citizensService.getPastEvents();
+        this.getPastEvents({ start: 0, end: this.pageSize });
       })
       .catch(error => {
         const message = error || 'Somthing went wrong!';
@@ -79,7 +91,7 @@ export class ListComponent implements OnInit {
   getNoteById(id, index) {
     this.isCardLoading = true;
     this.cardIndex = index;
-    this.citizensService.getCitizenNoteById(id).then(
+    this.citizensService.getCitizenNoteById(id).subscribe(
       response => {
         this.modal.create({
           nzTitle: 'Note',
@@ -94,14 +106,21 @@ export class ListComponent implements OnInit {
     );
   }
 
-  mapCitizens(resposne: IReturnedValues[]) {
+  mapCitizens(response: IReturnedValues[]) {
     let citizens = [];
-    if (resposne) {
-      citizens = resposne.map(citizen => {
+    if (response) {
+      citizens = response.map(citizen => {
         const { id, age, city, name } = citizen.returnValues;
         return { id, age, city, name };
       });
     }
     return citizens;
+  }
+
+  onPaginate(page) {
+    const start = page * this.pageSize - this.pageSize;
+    const end = start + this.pageSize;
+    this.currentPage = page;
+    this.getPastEvents({ start, end });
   }
 }

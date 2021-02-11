@@ -67,6 +67,8 @@
   nzAlign="middle"
   class="pagination">
   <nz-pagination [nzPageSize]="pageSize"
+    [(nzPageIndex)]="currentPage"
+    (nzPageIndexChange)="onPaginate($event)"
     nzSize="large"
     [nzTotal]="total"></nz-pagination>
 </nz-row>
