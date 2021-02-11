@@ -68,8 +68,9 @@
         nzShape="round"
         nz-tooltip
         [disabled]="type ==='edit'"
-        [nzTooltipVisible]="type === 'edit' "
-        nzTooltipTitle="Edit not supported in smart contract !"
+        [nzTooltipVisible]="type === 'edit' && !isLoading "
+        nzTooltipTitle="Sorry edit not supported in our smart contract !"
+        nzTooltipPlacement="bottom"
         type="submit"><i nz-icon
           [nzType]="type ==='add' ? 'plus' : 'save'"
           nzTheme="outline"></i> {{action}}</button>
