@@ -78,9 +78,9 @@ export class ListComponent implements OnInit {
         this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
       })
       .catch(error => {
-        const message = error || 'Somthing went wrong!';
+        const message = this.handleError(error.message);
+        this.messgaes.error(message);
         this.isAdding = false;
-        this.messgaes.info(message);
       });
   }
 
@@ -127,6 +127,15 @@ export class ListComponent implements OnInit {
         });
       }
     });
+  }
+
+  handleError(error) {
+    const errorMesasage = 'Somthing went wrong!';
+    if (typeof error === 'string') {
+      const errorWord = error.match(/Error: [\s\S]*:/i);
+      return errorWord ? errorWord : errorMesasage;
+    }
+    return error ? error.message : errorMesasage;
   }
 
   onPaginate(page) {

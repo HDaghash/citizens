@@ -59,8 +59,7 @@ export class FormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      const { id } = this.citizen;
-      const data = { ...this.form.value, id };
+      const data = this.form.value;
       this.onSubmit.emit(data);
     }
   }

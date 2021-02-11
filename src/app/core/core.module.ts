@@ -8,6 +8,7 @@ import { HttpService } from 'app/services/http/http.service';
 import { HttpClientModule } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 import { SharedModule } from 'app/shared/shared.module';
+import { ErrorHttpInterceptor } from 'app/services/http/error.interceptor';
 import en from '@angular/common/locales/en';
 registerLocaleData(en);
 
@@ -22,7 +23,11 @@ import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
     HttpClientModule,
     SharedModule
   ],
-  providers: [HttpService, { provide: NZ_I18N, useValue: en_US }],
+  providers: [
+    HttpService,
+    { provide: NZ_I18N, useValue: en_US },
+    ErrorHttpInterceptor
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
