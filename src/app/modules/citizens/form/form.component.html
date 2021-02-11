@@ -1,66 +1,69 @@
-<form nz-form
-  nzLayout="vertical"
-  [formGroup]="form"
-  (ngSubmit)="submit()"
-  (keyup.enter)="submit()">
-  <nz-row class="navigation">
-    <nz-col>
+<nz-spin nzTip="Loading..."
+  [nzSpinning]="isLoading">
+  <form nz-form
+    nzLayout="vertical"
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    (keyup.enter)="submit()">
+    <nz-row class="navigation">
+      <nz-col>
+        <button nz-button
+          nzType="primary"
+          nzShape="circle"
+          type="button"
+          (click)="back()"><i nz-icon
+            nzType="arrow-left"
+            nzTheme="outline"></i></button>
+      </nz-col>
+    </nz-row>
+    <nz-form-item>
+      <nz-form-label nzRequired
+        nzFor="name">Name</nz-form-label>
+      <nz-form-control nzErrorTip="Please input vaild name">
+        <input type="text"
+          nz-input
+          formControlName="name"
+          placeholder="Please input name" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired
+        nzFor="name">Age</nz-form-label>
+      <nz-form-control nzErrorTip="Please input vaild age">
+        <input type="text"
+          nz-input
+          formControlName="age"
+          placeholder="Please input age" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired
+        nzFor="name">City</nz-form-label>
+      <nz-form-control nzErrorTip="Please input vaild city">
+        <input type="text"
+          nz-input
+          formControlName="city"
+          placeholder="Please input city" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label nzRequired
+        nzFor="name">Note</nz-form-label>
+      <nz-form-control nzErrorTip="Please input vaild note">
+        <textarea type="text"
+          nz-input
+          formControlName="someNote"
+          [nzAutosize]="{ minRows: 2, maxRows: 2 }"
+          placeholder="Please input note"> </textarea></nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
       <button nz-button
         nzType="primary"
-        nzShape="circle"
-        type="button"
-        (click)="back()"><i nz-icon
-          nzType="arrow-left"
-          nzTheme="outline"></i></button>
-    </nz-col>
-  </nz-row>
-  <nz-form-item>
-    <nz-form-label nzRequired
-      nzFor="name">Name</nz-form-label>
-    <nz-form-control nzErrorTip="Please input vaild name">
-      <input type="text"
-        nz-input
-        formControlName="name"
-        placeholder="Please input name" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired
-      nzFor="name">Age</nz-form-label>
-    <nz-form-control nzErrorTip="Please input vaild age">
-      <input type="text"
-        nz-input
-        formControlName="age"
-        placeholder="Please input age" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired
-      nzFor="name">City</nz-form-label>
-    <nz-form-control nzErrorTip="Please input vaild city">
-      <input type="text"
-        nz-input
-        formControlName="city"
-        placeholder="Please input city" />
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-label nzRequired
-      nzFor="name">Note</nz-form-label>
-    <nz-form-control nzErrorTip="Please input vaild note">
-      <textarea type="text"
-        nz-input
-        formControlName="someNote"
-        [nzAutosize]="{ minRows: 2, maxRows: 2 }"
-        placeholder="Please input note"> </textarea></nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <button nz-button
-      nzType="primary"
-      nzSize="large"
-      nzShape="round"
-      type="submit"><i nz-icon
-        [nzType]="type ==='add' ? 'plus' : 'save'"
-        nzTheme="outline"></i> {{action}}</button>
-  </nz-form-item>
-</form>
+        nzSize="large"
+        nzShape="round"
+        type="submit"><i nz-icon
+          [nzType]="type ==='add' ? 'plus' : 'save'"
+          nzTheme="outline"></i> {{action}}</button>
+    </nz-form-item>
+  </form>
+</nz-spin>

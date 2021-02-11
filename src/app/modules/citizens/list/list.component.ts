@@ -6,7 +6,7 @@ import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { IReturnedValues } from './types';
 import { NzModalService } from 'ng-zorro-antd/modal';
-
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -25,6 +25,7 @@ export class ListComponent implements OnInit {
   isLoading: boolean = true;
   citizens: ICitizen[] = [];
   currentPage = 1;
+
   constructor(
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
@@ -33,15 +34,7 @@ export class ListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.avatarsService.getAvatars().subscribe(response => {
-      if (response) {
-        this.avatars = response.map(item => {
-          return item.avatars[1].url;
-        });
-      }
-    });
-
-    this.getPastEvents({ start: 0, end: this.pageSize });
+    this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
   }
 
   getPastEvents({ start, end }) {
@@ -52,11 +45,13 @@ export class ListComponent implements OnInit {
         { start, end }
       )
       .subscribe(
-        (response: IReturnedValues[]) => {
+        (response: { citizens: IReturnedValues[]; total: number }) => {
+          const { citizens, total } = response;
           this.isLoading = false;
-          this.citizens = this.mapCitizens(response);
+          this.citizens = this.mapCitizens(citizens);
           this.isLoading = false;
           this.currentPage = end / this.pageSize;
+          this.total = total;
         },
         error => {
           this.isLoading = false;
@@ -80,7 +75,7 @@ export class ListComponent implements OnInit {
         this.isAdding = false;
         this.isLoading = true;
         this.messgaes.success('Citizen has been added 🎉');
-        this.getPastEvents({ start: 0, end: this.pageSize });
+        this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
       })
       .catch(error => {
         const message = error || 'Somthing went wrong!';
@@ -97,7 +92,8 @@ export class ListComponent implements OnInit {
         this.modal.create({
           nzTitle: 'Note',
           nzContent: response,
-          nzClosable: true
+          nzClosable: true,
+          nzFooter: null
         });
         this.isCardLoading = false;
       },
@@ -118,10 +114,25 @@ export class ListComponent implements OnInit {
     return citizens;
   }
 
+  getCitizenWithAvatr(pagination) {
+    const requests = [this.getPastEvents(pagination), this.getFakeAvatars()];
+    return forkJoin(requests);
+  }
+
+  getFakeAvatars() {
+    this.avatarsService.getAvatars().subscribe(response => {
+      if (response) {
+        this.avatars = response.map(item => {
+          return item.avatars[1].url;
+        });
+      }
+    });
+  }
+
   onPaginate(page) {
     const start = page * this.pageSize - this.pageSize;
     const end = start + this.pageSize;
     this.currentPage = page;
-    this.getPastEvents({ start, end });
+    this.getCitizenWithAvatr({ start, end });
   }
 }
