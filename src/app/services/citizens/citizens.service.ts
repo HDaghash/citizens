@@ -27,7 +27,7 @@ export class CitizensService {
         const { age, city, name, someNote } = citizen;
         const citizens = await this.citizen.methods
           .addCitizen(age, city, name, someNote)
-          .send({ from: accounts[0] });
+          .call({ from: accounts[0] });
         return citizens;
       });
   }
@@ -36,7 +36,7 @@ export class CitizensService {
     return this.httpService.invoke({
       method: 'POST',
       url: environment.CLOUDFLARE_WORKER,
-      path: '?method=getCitizenById',
+      path: '?method=getCitizenNoteById',
       body: {
         infuraUrl: environment.INFURA_URL,
         address: environment.ETHEREUM.ADDRESS,
