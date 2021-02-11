@@ -56,6 +56,7 @@ export class ListComponent implements OnInit {
           this.isLoading = false;
           this.citizens = this.mapCitizens(response);
           this.isLoading = false;
+          this.currentPage = end / this.pageSize;
         },
         error => {
           this.isLoading = false;
