@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ICitizen } from 'app/services/citizens/types';
+import { CitizensService } from 'app/services/citizens/citizens.service';
+
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -11,37 +13,48 @@ export class FormComponent implements OnInit {
   @Input('citizen') citizen: ICitizen;
   @Output('onBack') onBack = new EventEmitter();
   @Output('onSubmit') onSubmit = new EventEmitter();
-
+  isLoading: boolean;
+  action: string;
   form = this.fb.group({
-    name: [
-      null
-      // [Validators.required, Validators.minLength(3)]
-    ],
+    name: [null, [Validators.required, Validators.minLength(3)]],
     age: [
       null,
       [
-        // Validators.required,
-        // Validators.pattern(/^[0-9]*$/),
-        // Validators.maxLength(3)
+        Validators.required,
+        Validators.pattern(/^[0-9]*$/),
+        Validators.maxLength(3)
       ]
     ],
-    city: [
-      null
-      // [Validators.required, Validators.minLength(3), Validators.maxLength(30)]
-    ],
-    note: [
-      null
-      // [Validators.required, Validators.minLength(3), Validators.maxLength(100)]
-    ]
+    city: [null, [Validators.required, Validators.minLength(3)]],
+    someNote: [null, [Validators.required, Validators.minLength(3)]]
   });
-  action: string;
-  constructor(private fb: FormBuilder) {}
+
+  constructor(
+    private fb: FormBuilder,
+    private citizensService: CitizensService
+  ) {}
 
   ngOnInit(): void {
     this.action = this.type === 'add' ? 'Add Citizen' : 'Save Change';
-    if (this.citizen) {
-      this.form.setValue(this.citizen);
+    if (this.citizen && this.type === 'edit') {
+      const { name, age, city, id } = this.citizen;
+      const data = { name, age, city, someNote: '' };
+      this.fetchNote(id);
+      this.form.setValue(data);
     }
+  }
+
+  fetchNote(id: number) {
+    this.isLoading = true;
+    this.citizensService.getCitizenNoteById(id).subscribe(
+      response => {
+        this.form.controls.someNote.setValue(response);
+        this.isLoading = false;
+      },
+      errror => {
+        this.isLoading = false;
+      }
+    );
   }
 
   submit() {

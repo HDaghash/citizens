@@ -4,60 +4,59 @@ import { CITIZENS_ICON } from './config';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { IReturnedValues } from './types';
+import { NzModalService } from 'ng-zorro-antd/modal';
+import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-  readonly title = 'Citizens';
   readonly citizenIcon = CITIZENS_ICON;
-  total = 20;
+  total: number = 20;
   isAdding: boolean;
+  isCardLoading: boolean;
   addingMode: boolean;
+  cardIndex: Number;
   avatars: string[] = [];
   pageSize: number = 4;
   loaderItems = Array.from(Array(this.pageSize + 1).keys());
   isLoading: boolean = true;
-  citizens: ICitizen[] = [
-    {
-      name: 'Hasan Daghash',
-      age: 28,
-      city: 'Dubai',
-      note: 'Citizen since 1992'
-    },
+  citizens: ICitizen[] = [];
+  currentPage = 1;
 
-    {
-      name: 'Mohammad Khaled Ahmad Kahled',
-      age: 28,
-      city: 'Amman',
-      note:
-        "Citizen since 1992Something like IP geolocation is probably part of a critical business processes and flow, so we built it (as all of our APIs) for use at scale and at blazing speeds. These aren't just marketing phrases, but fundamental features of our APIs."
-    }
-  ];
   constructor(
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
-    private messgaes: NzMessageService
+    private messgaes: NzMessageService,
+    private modal: NzModalService
   ) {}
 
   ngOnInit(): void {
+    this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
+  }
+
+  getPastEvents({ start, end }) {
     this.isLoading = true;
-    this.avatarsService.getAvatars().subscribe(
-      response => {
-        if (response) {
-          this.avatars = response.map(item => {
-            return item.avatars[1].url;
-          });
+    this.citizensService
+      .getPastEvents(
+        { fromBlock: 'earliest', toBlock: 'latest' },
+        { start, end }
+      )
+      .subscribe(
+        (response: { citizens: IReturnedValues[]; total: number }) => {
+          const { citizens, total } = response;
+          this.isLoading = false;
+          this.citizens = this.mapCitizens(citizens);
+          this.isLoading = false;
+          this.currentPage = end / this.pageSize;
+          this.total = total;
+        },
+        error => {
           this.isLoading = false;
         }
-      },
-      error => {
-        this.isLoading = false;
-      }
-    );
-    // this.citizensService.getCitizens();
+      );
   }
 
   addCitizen() {
@@ -72,24 +71,77 @@ export class ListComponent implements OnInit {
     this.isAdding = true;
     this.citizensService
       .addCitizen($event)
-      .then(response => {
+      .then(() => {
+        this.isAdding = false;
+        this.isLoading = true;
         this.messgaes.success('Citizen has been added 🎉');
-        this.isAdding = false;
+        this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
       })
-      .catch(err => {
+      .catch(error => {
+        const message = this.handleError(error.message);
+        this.messgaes.error(message);
         this.isAdding = false;
-        // TO BE GENERIC
-        if (err.message) {
-          const matches = err.message.match(/\{(.*?)\}/);
-          console.log(err);
-          try {
-            const error = JSON.parse(matches[0]);
-            const message = error.message;
-            this.messgaes.info(message);
-          } catch {
-            this.messgaes.info('Somthing went wrong !');
-          }
-        }
       });
+  }
+
+  getNoteById(id, index) {
+    this.isCardLoading = true;
+    this.cardIndex = index;
+    this.citizensService.getCitizenNoteById(id).subscribe(
+      response => {
+        this.modal.create({
+          nzTitle: 'Note',
+          nzContent: response,
+          nzClosable: true,
+          nzFooter: null
+        });
+        this.isCardLoading = false;
+      },
+      errror => {
+        this.isCardLoading = false;
+      }
+    );
+  }
+
+  mapCitizens(response: IReturnedValues[]) {
+    let citizens = [];
+    if (response) {
+      citizens = response.map(citizen => {
+        const { id, age, city, name } = citizen.returnValues;
+        return { id, age, city, name };
+      });
+    }
+    return citizens;
+  }
+
+  getCitizenWithAvatr(pagination) {
+    const requests = [this.getPastEvents(pagination), this.getFakeAvatars()];
+    return forkJoin(requests);
+  }
+
+  getFakeAvatars() {
+    this.avatarsService.getAvatars().subscribe(response => {
+      if (response) {
+        this.avatars = response.map(item => {
+          return item.avatars[1].url;
+        });
+      }
+    });
+  }
+
+  handleError(error) {
+    const errorMesasage = 'Somthing went wrong!';
+    if (typeof error === 'string') {
+      const errorWord = error.match(/Error: [\s\S]*:/i);
+      return errorWord ? errorWord : errorMesasage;
+    }
+    return error ? error.message : errorMesasage;
+  }
+
+  onPaginate(page) {
+    const start = page * this.pageSize - this.pageSize;
+    const end = start + this.pageSize;
+    this.currentPage = page;
+    this.getCitizenWithAvatr({ start, end });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ICONS } from './config';
 @Component({
   selector: 'app-card',
@@ -6,11 +6,14 @@ import { ICONS } from './config';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
+  @Output('onShowNote') onShowNote = new EventEmitter();
+  @Output('onSubmit') onSubmit = new EventEmitter();
   @Input('avatar') avatar;
   @Input('citizen') citizen;
   readonly notesMaxDisplay = 60;
   readonly icons = ICONS;
   editMode: boolean;
+
   constructor() {}
 
   ngOnInit(): void {}
@@ -19,9 +22,15 @@ export class CardComponent implements OnInit {
     this.editMode = true;
   }
 
-  submit($event) {}
+  submit($event) {
+    this.onSubmit.emit($event);
+  }
 
   hideForm() {
     this.editMode = false;
+  }
+
+  showNote(id: number) {
+    this.onShowNote.emit(id);
   }
 }

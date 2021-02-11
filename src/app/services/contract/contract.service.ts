@@ -7,10 +7,10 @@ import { environment } from 'environments/environment';
 
 @Injectable()
 export class ContractService {
-  public web3js: any;
-  public provider: any;
-  public accounts: any;
-  public web3Modal: any;
+  private web3js: any;
+  private provider: any;
+  private accounts: any;
+  private web3Modal: any;
 
   constructor() {
     this.initWallet();

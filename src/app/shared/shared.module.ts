@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NzModalModule } from 'ng-zorro-antd/modal';
 import { AvoidSanitizePipe } from 'app/shared/pipes/avoid-sanitize/avoid-sanitize.pipe';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
@@ -15,6 +15,7 @@ import { CitizensService } from 'app/services/citizens/citizens.service';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ContractService } from 'app/services/contract/contract.service';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 @NgModule({
   declarations: [AvoidSanitizePipe],
@@ -30,7 +31,9 @@ import { ContractService } from 'app/services/contract/contract.service';
     NzFormModule,
     NzInputModule,
     NzMessageModule,
-    NzSpinModule
+    NzSpinModule,
+    NzModalModule,
+    NzToolTipModule
   ],
   exports: [
     FormsModule,
@@ -45,7 +48,9 @@ import { ContractService } from 'app/services/contract/contract.service';
     NzFormModule,
     NzInputModule,
     NzMessageModule,
-    NzSpinModule
+    NzSpinModule,
+    NzModalModule,
+    NzToolTipModule
   ],
   providers: [AvatarsService, CitizensService, ContractService]
 })

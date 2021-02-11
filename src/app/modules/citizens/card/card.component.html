@@ -10,9 +10,13 @@
   <div class="card-content">
     <h2 class="card-content-name"
       [attr.data-age]="citizen.age + ' years'"> {{citizen.name}}</h2>
-    <p class="card-content-note"
-      [attr.data-note]="citizen.note.length > notesMaxDisplay"><span
-        [innerHtml]="icons.NOTE_ICON | avoidSanitize"></span>{{citizen.note | slice:0:notesMaxDisplay}} </p>
+    <button nz-button
+      [disabled]="!citizen.id"
+      (click)="showNote(citizen.id)"
+      nzType="primary"
+      nzBlock><i nz-icon
+        nzType="comment"
+        nzTheme="outline"></i> Show Notes</button>
     <div class="card-content-city"><span [innerHtml]="icons.CITY_ICON | avoidSanitize"></span>{{citizen.city}}</div>
   </div>
 </div>

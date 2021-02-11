@@ -3,7 +3,7 @@
   nzJustify="start"
   nzAlign="middle">
   <nz-col>
-    <h1><span [innerHtml]="citizenIcon|avoidSanitize"></span>{{title}}</h1>
+    <h1><span [innerHtml]="citizenIcon|avoidSanitize"></span>Citizens</h1>
   </nz-col>
 </nz-row>
 <nz-row nzType="flex"
@@ -50,17 +50,26 @@
       </nz-spin>
     </div>
   </nz-col>
-  <nz-col class="item"
-    *ngFor="let avatar of avatars| slice:0:pageSize">
-    <app-card [avatar]="avatar"
-      [citizen]="citizens[1]"></app-card>
-  </nz-col>
+  <ng-container *ngIf="!isLoading">
+    <nz-col class="item"
+      *ngFor="let citizen of citizens;let i=index">
+      <nz-spin nzTip="Loading..."
+        [nzSpinning]="isCardLoading && i == cardIndex">
+        <app-card (onShowNote)="getNoteById($event,i)"
+          [avatar]="avatars[i] ? avatars[i] : '../../assets/images/undraw_image_upload_wqh3.svg'"
+          [citizen]="citizen"
+          (onSubmit)="submit($event)"></app-card>
+      </nz-spin>
+    </nz-col>
+  </ng-container>
 </nz-row>
 <nz-row nzType="flex"
   nzJustify="start"
   nzAlign="middle"
   class="pagination">
   <nz-pagination [nzPageSize]="pageSize"
+    [(nzPageIndex)]="currentPage"
+    (nzPageIndexChange)="onPaginate($event)"
     nzSize="large"
     [nzTotal]="total"></nz-pagination>
 </nz-row>
