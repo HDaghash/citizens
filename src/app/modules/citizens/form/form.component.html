@@ -69,7 +69,7 @@
         nz-tooltip
         [disabled]="type ==='edit'"
         [nzTooltipVisible]="type === 'edit' && !isLoading "
-        nzTooltipTitle="Sorry edit not supported in our smart contract !"
+        [nzTooltipTitle]="(type === 'edit' ? 'Sorry edit not supported in our smart contract !' : empty)"
         nzTooltipPlacement="bottom"
         type="submit"><i nz-icon
           [nzType]="type ==='add' ? 'plus' : 'save'"
