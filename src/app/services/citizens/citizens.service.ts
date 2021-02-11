@@ -27,7 +27,7 @@ export class CitizensService {
         const { age, city, name, someNote } = citizen;
         const citizens = await this.citizen.methods
           .addCitizen(age, city, name, someNote)
-          .call({ from: accounts[0] });
+          .send({ from: accounts[0] });
         return citizens;
       });
   }

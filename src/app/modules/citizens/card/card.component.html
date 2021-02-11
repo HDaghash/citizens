@@ -1,5 +1,5 @@
 <div class="card"
-  *ngIf="!editMode">
+  *ngIf="!editMode && citizen">
   <div class="card-avatar">
     <img [src]="avatar">
   </div>
@@ -14,9 +14,10 @@
       [disabled]="!citizen.id"
       (click)="showNote(citizen.id)"
       nzType="primary"
+      nzShape="round"
       nzBlock><i nz-icon
         nzType="comment"
-        nzTheme="outline"></i> Show Notes</button>
+        nzTheme="outline"></i> Show notes</button>
     <div class="card-content-city"><span [innerHtml]="icons.CITY_ICON | avoidSanitize"></span>{{citizen.city}}</div>
   </div>
 </div>

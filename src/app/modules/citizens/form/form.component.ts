@@ -3,7 +3,6 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ICitizen } from 'app/services/citizens/types';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { FormService } from 'app/services/forms/forms.service';
-
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -16,6 +15,7 @@ export class FormComponent implements OnInit {
   @Output('onSubmit') onSubmit = new EventEmitter();
   isLoading: boolean;
   action: string;
+  empty = null;
   form = this.fb.group({
     name: [null, [Validators.required, Validators.minLength(4)]],
     age: [

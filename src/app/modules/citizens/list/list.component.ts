@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
-import { CITIZENS_ICON } from './config';
+import { CITIZENS_ICON, MODAL_STYLE } from './config';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -66,7 +66,7 @@ export class ListComponent implements OnInit {
     if (hasMetaMask) {
       this.addingMode = true;
     } else {
-      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
+      this.messgaes.info('MetaMask 🦊 plugin Should be downloaded first !');
     }
   }
 
@@ -94,27 +94,23 @@ export class ListComponent implements OnInit {
   }
 
   getNoteById(id, index) {
-    const hasMetaMask = this.contractService.hasMetaMask();
-    if (hasMetaMask) {
-      this.isCardLoading = true;
-      this.cardIndex = index;
-      this.citizensService.getCitizenNoteById(id).subscribe(
-        response => {
-          this.modal.create({
-            nzTitle: 'Note',
-            nzContent: response,
-            nzClosable: true,
-            nzFooter: null
-          });
-          this.isCardLoading = false;
-        },
-        errror => {
-          this.isCardLoading = false;
-        }
-      );
-    } else {
-      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
-    }
+    this.isCardLoading = true;
+    this.cardIndex = index;
+    this.citizensService.getCitizenNoteById(id).subscribe(
+      response => {
+        this.modal.create({
+          nzTitle: 'Note',
+          nzContent: response,
+          nzClosable: true,
+          nzFooter: null,
+          nzBodyStyle: MODAL_STYLE
+        });
+        this.isCardLoading = false;
+      },
+      errror => {
+        this.isCardLoading = false;
+      }
+    );
   }
 
   mapCitizens(response: IReturnedValues[]) {
@@ -151,7 +147,7 @@ export class ListComponent implements OnInit {
   }
 
   handleError(error) {
-    //TODO:  temp BE fix invalid json return
+    //TODO:temp smart contract need fix invalid json
     const errorMesasage = 'Somthing went wrong!';
     if (typeof error === 'string') {
       const errorText = error.includes('{')

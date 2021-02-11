@@ -17,6 +17,12 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { ContractService } from 'app/services/contract/contract.service';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { FormService } from 'app/services/forms/forms.service';
+import { FormBuilder } from '@angular/forms';
+import { ArrowLeftOutline, SaveOutline } from '@ant-design/icons-angular/icons';
+import { IconDefinition } from '@ant-design/icons-angular';
+
+const icons: IconDefinition[] = [ArrowLeftOutline, SaveOutline];
+
 @NgModule({
   declarations: [AvoidSanitizePipe],
   imports: [
@@ -27,7 +33,7 @@ import { FormService } from 'app/services/forms/forms.service';
     NzGridModule,
     NzPaginationModule,
     NzButtonModule,
-    NzIconModule,
+    NzIconModule.forRoot(icons),
     NzFormModule,
     NzInputModule,
     NzMessageModule,
@@ -52,6 +58,12 @@ import { FormService } from 'app/services/forms/forms.service';
     NzModalModule,
     NzToolTipModule
   ],
-  providers: [AvatarsService, CitizensService, ContractService, FormService]
+  providers: [
+    AvatarsService,
+    CitizensService,
+    ContractService,
+    FormService,
+    FormBuilder
+  ]
 })
 export class SharedModule {}
