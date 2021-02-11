@@ -44,4 +44,8 @@ export class ContractService {
     await this.connectAccount();
     return { web3js: this.web3js, accounts: this.accounts };
   }
+
+  hasMetaMask() {
+    return typeof window.web3 !== 'undefined';
+  }
 }
