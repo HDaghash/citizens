@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AvatarsService } from 'app/services/avatars/avatars.service';
-import { CITIZENS_ICON } from './config';
+import { CITIZENS_ICON, MODAL_STYLE } from './config';
 import { CitizensService } from 'app/services/citizens/citizens.service';
 import { ICitizen } from 'app/services/citizens/types';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -102,7 +102,8 @@ export class ListComponent implements OnInit {
           nzTitle: 'Note',
           nzContent: response,
           nzClosable: true,
-          nzFooter: null
+          nzFooter: null,
+          nzBodyStyle: MODAL_STYLE
         });
         this.isCardLoading = false;
       },

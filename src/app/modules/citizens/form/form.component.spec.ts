@@ -37,4 +37,12 @@ describe('FormComponent', () => {
     component.form.controls.someNote.setValue('');
     expect(component.form.valid).toBeFalsy();
   });
+
+  it('form shoudl be valid', () => {
+    component.form.controls.name.setValue('Testing Name');
+    component.form.controls.age.setValue('28');
+    component.form.controls.city.setValue('Testing City');
+    component.form.controls.someNote.setValue('Testing Note');
+    expect(component.form.valid).toBeTruthy();
+  });
 });
