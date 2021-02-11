@@ -94,27 +94,22 @@ export class ListComponent implements OnInit {
   }
 
   getNoteById(id, index) {
-    const hasMetaMask = this.contractService.hasMetaMask();
-    if (hasMetaMask) {
-      this.isCardLoading = true;
-      this.cardIndex = index;
-      this.citizensService.getCitizenNoteById(id).subscribe(
-        response => {
-          this.modal.create({
-            nzTitle: 'Note',
-            nzContent: response,
-            nzClosable: true,
-            nzFooter: null
-          });
-          this.isCardLoading = false;
-        },
-        errror => {
-          this.isCardLoading = false;
-        }
-      );
-    } else {
-      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
-    }
+    this.isCardLoading = true;
+    this.cardIndex = index;
+    this.citizensService.getCitizenNoteById(id).subscribe(
+      response => {
+        this.modal.create({
+          nzTitle: 'Note',
+          nzContent: response,
+          nzClosable: true,
+          nzFooter: null
+        });
+        this.isCardLoading = false;
+      },
+      errror => {
+        this.isCardLoading = false;
+      }
+    );
   }
 
   mapCitizens(response: IReturnedValues[]) {
