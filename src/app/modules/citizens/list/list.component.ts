@@ -66,7 +66,7 @@ export class ListComponent implements OnInit {
     if (hasMetaMask) {
       this.addingMode = true;
     } else {
-      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
+      this.messgaes.info('MetaMask 🦊 plugin Should be downloaded first !');
     }
   }
 
