@@ -24,9 +24,9 @@ export class ErrorInterceptor implements HttpInterceptor {
         let throwErrorMessage = null;
         if (errorReponse instanceof HttpErrorResponse) {
           const { status, statusText, message, error } = errorReponse;
-          throwErrorMessage = error;
+          throwErrorMessage = message;
           const displayErrorMessage = `HTTP ERROR: ${status} - ${statusText}\n${message}\n\nBACKEND RESPONSE: `;
-          const errorMessage = error ? error.message : 'Somthing went wrong!';
+          const errorMessage = message ? message : 'Somthing went wrong!';
           this.message.create('error', errorMessage);
           console.error(displayErrorMessage);
         }
