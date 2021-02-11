@@ -7,6 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { IReturnedValues } from './types';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { forkJoin } from 'rxjs';
+import { ContractService } from 'app/services/contract/contract.service';
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
@@ -30,7 +31,8 @@ export class ListComponent implements OnInit {
     private avatarsService: AvatarsService,
     private citizensService: CitizensService,
     private messgaes: NzMessageService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private contractService: ContractService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +62,12 @@ export class ListComponent implements OnInit {
   }
 
   addCitizen() {
-    this.addingMode = true;
+    const hasMetaMask = this.contractService.hasMetaMask();
+    if (hasMetaMask) {
+      this.addingMode = true;
+    } else {
+      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
+    }
   }
 
   hideForm() {
@@ -78,29 +85,36 @@ export class ListComponent implements OnInit {
         this.getCitizenWithAvatr({ start: 0, end: this.pageSize });
       })
       .catch(error => {
-        const message = this.handleError(error.message);
+        const message = error
+          ? this.handleError(error.message)
+          : this.handleError(error);
         this.messgaes.error(message);
         this.isAdding = false;
       });
   }
 
   getNoteById(id, index) {
-    this.isCardLoading = true;
-    this.cardIndex = index;
-    this.citizensService.getCitizenNoteById(id).subscribe(
-      response => {
-        this.modal.create({
-          nzTitle: 'Note',
-          nzContent: response,
-          nzClosable: true,
-          nzFooter: null
-        });
-        this.isCardLoading = false;
-      },
-      errror => {
-        this.isCardLoading = false;
-      }
-    );
+    const hasMetaMask = this.contractService.hasMetaMask();
+    if (hasMetaMask) {
+      this.isCardLoading = true;
+      this.cardIndex = index;
+      this.citizensService.getCitizenNoteById(id).subscribe(
+        response => {
+          this.modal.create({
+            nzTitle: 'Note',
+            nzContent: response,
+            nzClosable: true,
+            nzFooter: null
+          });
+          this.isCardLoading = false;
+        },
+        errror => {
+          this.isCardLoading = false;
+        }
+      );
+    } else {
+      this.messgaes.info('🦊MetaMask plugin Should be downloaded');
+    }
   }
 
   mapCitizens(response: IReturnedValues[]) {
@@ -129,19 +143,22 @@ export class ListComponent implements OnInit {
     });
   }
 
-  handleError(error) {
-    const errorMesasage = 'Somthing went wrong!';
-    if (typeof error === 'string') {
-      const errorWord = error.match(/Error: [\s\S]*:/i);
-      return errorWord ? errorWord : errorMesasage;
-    }
-    return error ? error.message : errorMesasage;
-  }
-
   onPaginate(page) {
     const start = page * this.pageSize - this.pageSize;
     const end = start + this.pageSize;
     this.currentPage = page;
     this.getCitizenWithAvatr({ start, end });
+  }
+
+  handleError(error) {
+    //TODO:  temp BE fix invalid json return
+    const errorMesasage = 'Somthing went wrong!';
+    if (typeof error === 'string') {
+      const errorText = error.includes('{')
+        ? error.match(/Error: [\s\S]*:/i)
+        : error;
+      return errorText ? errorText : errorMesasage;
+    }
+    return error ? error.message : errorMesasage;
   }
 }
