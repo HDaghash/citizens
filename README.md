@@ -16,7 +16,7 @@ https://citizens-ui.herokuapp.com/citizens
 
 ## Development server
 
-Make sure to install MetaMask plugin on your web browser to be able to use all features
+Make sure to install MetaMask plugin on your web browser & connect to ropsten test network to be able to use all features
 
 1- Install NodeJs & Npm.
 
