@@ -2,7 +2,7 @@
 
  ### APP 
 
-![screely-1613091664514](https://user-images.githubusercontent.com/15608990/107718412-913a7900-6cde-11eb-8c6e-20d999974b50.png)
+![screely-1613091836993](https://user-images.githubusercontent.com/15608990/107718594-f7270080-6cde-11eb-8d4f-9ebad3a7b455.png)
 
  ### Workflow
 
