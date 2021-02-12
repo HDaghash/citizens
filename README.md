@@ -1,5 +1,8 @@
 # Citizens
 
+![task](https://user-images.githubusercontent.com/15608990/107717653-d65dab80-6cdc-11eb-80b4-a63e07f8a45a.png)
+
+
 ## Live version
 
 https://citizens-ui.herokuapp.com/citizens
@@ -7,11 +10,14 @@ https://citizens-ui.herokuapp.com/citizens
 
 ## Development server
 
-Install NodeJs & Npm
+Make sure to install MetaMask plugin on your web browser to be able to use all features
 
-Run `npm i`
+1- Install NodeJs & Npm.
 
-Run `ng s` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+2- Run `npm i`
+
+3- Run `ng s` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
 
 ## Code scaffolding
 
